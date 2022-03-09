@@ -18,17 +18,54 @@ class TopPage extends StatefulWidget {
 
 class _TopPageState extends State<TopPage> {
   List<TalkRoomData> talkUserList = [];
+  User myProf = User(
+      name: 'ななしさん',
+      uid: 'uid',
+      imagePath:
+          'http://kumiho.sakura.ne.jp/twegg/gen_egg.cgi?r=59&g=148&b=217');
+  String myUid = SharedPrefs.getUid();
 
   Future<void> createRooms() async {
     String myUid = SharedPrefs.getUid();
     talkUserList = await Firestore.getRooms(myUid);
   }
 
+  Future<void> myProfFuture() async {
+    String myUid = SharedPrefs.getUid();
+    myProf = await Firestore.getProfile(myUid);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('チャットアプリ'),
+          title: StreamBuilder<Object>(
+              stream: Firestore.myProfSnapshot(myUid),
+              builder: (context, snapshot) {
+                return FutureBuilder(
+                    future: myProfFuture(),
+                    builder: (context, snapshot) {
+                      return Center(
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10.0),
+                              child: CircleAvatar(
+                                backgroundImage: NetworkImage(myProf.imagePath),
+                                radius: 20,
+                              ),
+                            ),
+                            Text(
+                              myProf.name,
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
+                      );
+                    });
+              }),
           actions: [
             IconButton(
               onPressed: () {
