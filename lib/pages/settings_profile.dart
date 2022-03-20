@@ -91,9 +91,14 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
               image == null
                   ? Container()
                   : Container(
-                      width: 200,
-                      height: 200,
-                      child: Image.file(image!, fit: BoxFit.cover),
+                      child: ClipOval(
+                        child: Image.file(
+                          image!,
+                          fit: BoxFit.cover,
+                          width: 200,
+                          height: 200,
+                        ),
+                      ),
                     ),
               SizedBox(
                 height: 30,
@@ -107,7 +112,7 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
                         imagePath: imagePath);
                     Firestore.updateProfile(newProfile);
                   },
-                  child: Text('hozon'))
+                  child: Text('保存'))
             ],
           ),
         ));

@@ -72,8 +72,12 @@ class _TalkRoomState extends State<TalkRoom> {
                                           borderRadius:
                                               BorderRadius.circular(18)),
                                       child: Text(messageList[index].message)),
-                                  Text(intl.DateFormat('HH:mm')
-                                      .format(sendTime)),
+                                  Text(
+                                      intl.DateFormat('yy/MM/dd_HH:mm')
+                                          .format(sendTime),
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                      )),
                                 ],
                               ),
                             );
@@ -91,7 +95,8 @@ class _TalkRoomState extends State<TalkRoom> {
                 children: [
                   Expanded(
                       child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                     child: TextField(
                       controller: controller,
                       decoration: InputDecoration(border: OutlineInputBorder()),
