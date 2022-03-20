@@ -18,20 +18,18 @@ class TopPage extends StatefulWidget {
 
 class _TopPageState extends State<TopPage> {
   List<TalkRoomData> talkUserList = [];
-  User myProf = User(
-      name: 'ななしさん',
-      uid: 'uid',
-      imagePath:
-          'http://kumiho.sakura.ne.jp/twegg/gen_egg.cgi?r=59&g=148&b=217');
+  User myProf = User(name: '', uid: '', imagePath: '');
   String myUid = SharedPrefs.getUid();
 
   Future<void> createRooms() async {
-    String myUid = SharedPrefs.getUid();
+    print('myUid is');
+    print(myUid);
     talkUserList = await Firestore.getRooms(myUid);
+    print('talkUserList is--------------------------');
+    print(talkUserList);
   }
 
   Future<void> myProfFuture() async {
-    String myUid = SharedPrefs.getUid();
     myProf = await Firestore.getProfile(myUid);
   }
 
@@ -39,7 +37,7 @@ class _TopPageState extends State<TopPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: StreamBuilder<Object>(
+          title: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
               stream: Firestore.myProfSnapshot(myUid),
               builder: (context, snapshot) {
                 return FutureBuilder(

@@ -8,7 +8,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await SharedPrefs.setInstance();
-  checkAccount();
+  await checkAccount();
   runApp(const MyApp());
 }
 
